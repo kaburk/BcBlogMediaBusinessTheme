@@ -1,0 +1,189 @@
+@charset "UTF-8";
+/* ==========================================================================
+   BcBlogMediaBusinessTheme : baserCMS5 オウンドメディアのテーマ（ビジネス）
+
+   スタイル：ビジネス（Business Clean）
+   白地に濃紺。情報を整理した、信頼感のあるオウンドメディア。カードは角丸控えめ、影はごく薄く。
+   トップはピックアップ＋カテゴリごとのまとまり（config/setting.php の topLayout）、記事の目次は本文の上。
+   4色はテーマ設定（config.css の --theme-*）が優先。ここの値は、テーマ設定が空のときの代わりの値
+   ========================================================================== */
+:root {
+	--main: var(--theme-main, #1d4ed8);   /* メイン：ボタン・強調・アクセント */
+	--sub: var(--theme-sub, #0b1f3a);     /* サブ：見出しの文字・濃い背景（CTA の帯・フッター） */
+	--link: var(--theme-link, #1d4ed8);   /* リンク */
+	--hover: var(--theme-hover, #1e3a8a); /* リンクのホバー */
+	--font-body: "Inter", "Noto Sans JP", system-ui, -apple-system, "Hiragino Sans", sans-serif;
+	--font-head: var(--font-body);
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--bg: #ffffff;
+	--surface: #ffffff;
+	--surface2: color-mix(in oklab, var(--sub) 4%, #ffffff);
+	--fg: #1f2329;
+	--fg-muted: #565d68;
+	--line: color-mix(in oklab, var(--sub) 14%, #ffffff);
+	--line-strong: #8a919c;
+	--ph-bg: var(--surface2);
+	--radius: 6px;
+	--radius-l: 8px;
+	--shadow: none;
+	--shadow-hover: 0 6px 18px rgb(11 20 35 / .08);
+	--measure: 720px;
+}
+:root[data-theme="dark"] {
+	--bg: #0f1318;
+	--surface: #161b22;
+	--surface2: color-mix(in oklab, var(--sub) 18%, #141920);
+	--fg: #e6e9ee;
+	--fg-muted: #a6adb8;
+	--line: #2b323c;
+	--line-strong: #6b7380;
+	--shadow-hover: 0 6px 18px rgb(0 0 0 / .35);
+}
+body { line-height: 1.7; }
+
+/* ---------- ヘッダー：上部に固定、ナビは下線で現在地 ---------- */
+.bt-header { position: sticky; top: 0; z-index: 20; }
+.bt-header-top { min-height: 76px; padding-block: 14px; }
+.bt-brand-name { font-size: 23px; font-weight: 800; letter-spacing: .03em; }
+.bt-brand-desc { font-size: 12px; }
+.bt-site .bt-gnav-list a { padding: 14px 16px 12px; font-weight: 600; border-bottom-width: 3px; }
+.bt-search input { background: var(--bg); }
+
+/* ---------- 共通の見出し：左にメインの短い縦線 ---------- */
+.bt-section-title { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 800; }
+.bt-section-title::before { content: ""; width: 6px; height: 22px; border-radius: 2px; background: var(--main); flex: none; }
+.bt-sec-head { padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+.bt-intro { margin: 16px 0 48px; padding: 0; background: none; border: 0; }
+.bt-intro, .bt-intro p { font-size: 16px; color: var(--fg-muted); }
+.bt-intro strong { display: block; margin-bottom: 6px; font-size: 30px; font-weight: 800; line-height: 1.4; letter-spacing: .02em; color: var(--heading); }
+
+/* ---------- カード：枠と角丸控えめ、ホバーで少し浮く ---------- */
+.bt-card { transition: box-shadow .2s, transform .2s; }
+.bt-card:hover { border-color: var(--line); transform: translateY(-2px); }
+.bt-card-thumb { aspect-ratio: 16 / 9; }
+.bt-card-noimage { font-size: 18px; }
+.bt-card-body { padding: 16px 18px 18px; }
+.bt-card-title { min-height: 0; font-size: 17px; line-height: 1.6; -webkit-line-clamp: 3; }
+.bt-site .bt-card:hover .bt-card-title a { color: var(--link-c); text-decoration: none; }
+.bt-card-excerpt { min-height: 0; font-size: 15px; -webkit-line-clamp: 2; }
+.bt-card .bt-tag-list { display: none; }
+.bt-post-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.bt-post-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+/* トップのカテゴリのまとまり：カテゴリ名と読了時間は出さず、タイトルと日付だけ */
+.bt-post-grid--4 .bt-card-cat, .bt-post-grid--4 .bt-card-meta span + span { display: none; }
+.bt-post-grid--4 .bt-card-title { font-size: 16px; }
+.bt-post-grid--small .bt-card-body { padding: 12px 14px 14px; }
+.bt-post-grid--small .bt-card-title { font-size: 15px; -webkit-line-clamp: 2; min-height: 0; }
+
+/* ---------- 一覧の見出し ---------- */
+.bt-list-head { margin: 0 0 32px; padding: 4px 0 28px; background: none; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; }
+.bt-list-kicker { color: var(--main-ink); font-weight: 700; letter-spacing: .1em; }
+.bt-list-title { font-size: 32px; font-weight: 800; }
+.bt-empty { border-style: dashed; border-color: var(--line-strong); }
+
+/* ---------- 記事の詳細 ---------- */
+.bt-article { padding: 0; background: none; border: 0; box-shadow: none; }
+.bt-article-inner { max-width: none; }
+.bt-site .bt-article-cat { padding: 4px 12px; border-radius: 999px; }
+.bt-article-title { font-size: 30px; font-weight: 800; line-height: 1.55; }
+.bt-eyecatch { border-radius: var(--radius); aspect-ratio: 16 / 9; }
+/* 目次：PC でも本文の上に、開閉できる箱で出す */
+.bt-toc-widget { display: none; }
+.bt-toc-sp { display: block; max-width: 40em; margin: 36px 0 40px; border-radius: var(--radius-l); background: var(--surface2); }
+.bt-toc-sp summary { min-height: 56px; padding: 0 20px; font-size: 16px; }
+.bt-toc-sp .bt-toc { padding: 0 20px 18px; }
+.bt-post-body :is(h2, h3, h4) { scroll-margin-top: 150px; }
+
+/* ---------- 本文：h2 は薄いメインの帯＋太い下線、h3 は小さな四角 ---------- */
+.bt-post-body { max-width: 40em; }
+.bt-post-body h2 {
+	margin-top: 2.6em; padding: 14px 20px; border: 0; border-bottom: 3px solid var(--main); border-radius: 4px 4px 0 0;
+	background: color-mix(in oklab, var(--main) 7%, var(--surface)); font-size: 23px; font-weight: 800;
+}
+.bt-post-body h3 { display: flex; align-items: baseline; gap: 10px; padding-bottom: 10px; font-size: 20px; }
+.bt-post-body h3::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--main); flex: none; translate: 0 -2px; }
+.bt-post-body :is(.bge-title-h2, .bge-title-h3) { margin-top: 0; }
+.bt-post-body table:not(.hljs-ln) thead th { background: var(--sub); border-color: var(--sub); color: var(--on-sub); }
+.bt-post-body table:not(.hljs-ln) tbody td:first-child { font-weight: 700; color: var(--heading); }
+.bt-post-body blockquote:not(:has(> p:first-child > strong:only-child)) {
+	position: relative; padding: 20px 24px 20px 58px; border: 0; border-radius: var(--radius); background: var(--surface2); color: var(--fg);
+}
+.bt-post-body blockquote:not(:has(> p:first-child > strong:only-child))::before {
+	content: "\201C"; position: absolute; left: 18px; top: 6px; font-family: Georgia, serif; font-size: 52px; line-height: 1; color: var(--main-ink);
+}
+.bt-post-body :is(.bgt-image img, figure img, p > img) { border: 0; border-radius: var(--radius); }
+
+/* ---------- シェア・書き手・前後の記事 ---------- */
+.bt-share { max-width: 40em; padding: 20px 0; border-block: 1px solid var(--line); }
+.bt-site .bt-share a { border: 0; border-radius: 999px; background: var(--main-soft); color: var(--main-ink); }
+.bt-site .bt-share a:hover { background: var(--main-solid); color: var(--on-main); }
+.bt-author-box { background: var(--surface); border-radius: var(--radius-l); }
+
+/* ---------- CTA：サブの色の帯（ボタンはメイン） ---------- */
+.bt-cta { padding: 40px 48px; border-radius: var(--radius-l); }
+.bt-site .bt-cta .bt-btn { min-height: 54px; padding: 0 30px; font-size: 17px; box-shadow: 0 0 0 2px color-mix(in oklab, var(--on-sub) 18%, transparent); }
+
+/* ---------- サイドバー：箱にせず、見出しの下線にメインの短い線 ---------- */
+.bt-sidebar { gap: 36px; }
+.bt-widget { background: none; border: 0; border-radius: 0; box-shadow: none; }
+.bt-widget-title { position: relative; padding: 0 0 10px; border-bottom: 2px solid var(--line); font-size: 16px; font-weight: 800; }
+.bt-widget-title::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 48px; height: 2px; background: var(--main); }
+.bt-widget-body { padding: 8px 0 0; }
+.bt-site .bt-widget-list a { min-height: 48px; align-items: center; font-size: 15px; }
+.bt-widget-list .bt-count { min-width: 30px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface2); text-align: center; font-size: 12px; }
+.bt-site .bt-tag { height: 36px; padding: 0 14px; font-size: 14px; background: var(--surface); }
+.bt-tag::before { color: var(--main-ink); font-weight: 700; }
+.bt-recent-list .bt-w-title { font-weight: 700; color: var(--heading); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+
+/* ---------- フッター：サブの色の濃い面 ---------- */
+.bt-footer { padding-block: 56px 28px; background: var(--sub); border-top: 0; color: var(--on-sub); }
+.bt-footer .bt-footer-name, .bt-site .bt-footer a, .bt-footer .bt-footer-profile { color: var(--on-sub); }
+.bt-footer .bt-footer-desc, .bt-footer .bt-copyright, .bt-footer .bt-company { color: color-mix(in oklab, var(--on-sub) 80%, var(--sub)); }
+.bt-site .bt-footer-nav a:hover { color: var(--on-sub); }
+.bt-company { margin: 0; font-size: 14px; line-height: 1.8; }
+/* 運営会社の欄（フッター：プロフィール）にメディア名があるので、ナビの上のサイト名は出さない */
+.bt-footer-nav > .bt-footer-name { display: none; }
+.bt-company strong { display: block; margin-bottom: 8px; font-size: 20px; font-weight: 800; letter-spacing: .03em; color: var(--on-sub); }
+[data-theme="dark"] .bt-footer { background: #0a0d11; border-top: 1px solid var(--line); }
+
+/* ---------- 動き ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.bt-card:hover { transform: none; }
+}
+
+/* ---------- タブレット・スマホ ---------- */
+@container site (max-width: 1000px) {
+	.bt-post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container site (max-width: 760px) {
+	.bt-header-top { min-height: 0; padding-block: 12px; }
+	.bt-brand-name { font-size: 19px; }
+	.bt-intro strong { font-size: 24px; }
+	.bt-section-title { font-size: 20px; }
+	.bt-article, .bt-comments { margin-inline: 0; padding: 0; border: 0; }
+	.bt-article-title { font-size: 23px; }
+	.bt-post-body h2 { padding: 12px 14px; font-size: 20px; }
+	.bt-post-body h3 { font-size: 18px; }
+	.bt-post-body table:not(.hljs-ln) { display: block; overflow-x: auto; white-space: nowrap; }
+	.bt-post-body blockquote:not(:has(> p:first-child > strong:only-child)) { padding: 16px 18px 16px 48px; }
+	.bt-post-body blockquote:not(:has(> p:first-child > strong:only-child))::before { left: 12px; }
+	.bt-list-title { font-size: 26px; }
+	.bt-cta { padding: 28px 22px; }
+	/* カテゴリのまとまり：スマホは左に小さなサムネイル、右に文字の行 */
+	.bt-post-grid--4 { gap: 0; }
+	.bt-post-grid--4 .bt-card { flex-direction: row; gap: 14px; padding: 14px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; }
+	.bt-post-grid--4 .bt-card:hover { transform: none; box-shadow: none; }
+	.bt-post-grid--4 .bt-card-thumb { flex: 0 0 120px; border-radius: 4px; }
+	.bt-post-grid--4 .bt-card-noimage { font-size: 13px; }
+	.bt-post-grid--4 .bt-card-body { padding: 0; gap: 4px; }
+}
+@container site (max-width: 640px) {
+	.bt-post-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+	.bt-post-grid--4 { gap: 0; }
+}
+
+/* スマホのヘッダー：資料請求のボタンと並ぶので、メディア名は1行に収め、説明1行は隠す */
+@container site (max-width: 480px) {
+	.bt-brand-name { font-size: 19px; white-space: nowrap; }
+	.bt-brand-desc { display: none; }
+}
